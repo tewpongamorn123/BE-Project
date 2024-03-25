@@ -1,6 +1,6 @@
 const e = require('express');
 const Interview = require('../models/Interview');
-const Company = require('../models/Company');
+const Joboffer = require('../models/Joboffer');
 
 exports.getInterviews = async (req, res, next) => {
     let query;
@@ -8,14 +8,14 @@ exports.getInterviews = async (req, res, next) => {
     if(req.user.role !== 'admin') {
         query = Interview.find({user: req.user.id}).populate(
             {
-                path: 'company',
+                path: 'joboffer',
                 select: 'name address telephone_number '
             }
         );
     }else {
         query = Interview.find().populate(
             {
-                path: 'company',
+                path: 'joboffer',
                 select: 'name address telephone_number '
             }
         );
@@ -35,9 +35,9 @@ exports.createInterview = async (req, res, next) => {
         if(date < new Date('2022-05-10T00:00:00.000Z') || date > new Date('2022-05-13T23:59:59.000Z')) {
             return res.status(400).json({success: false, message: 'Date is not in between 10-13 May 2022'});
         }
-        const company = await Company.findById(req.body.company);
-        if(!company) {
-            return res.status(400).json({success: false, message: 'Company does not exist'});
+        const joboffer = await Joboffer.findById(req.body.joboffer);
+        if(!joboffer) {
+            return res.status(400).json({success: false, message: 'Joboffer does not exist'});
         }
         //user can create up to 3 interviews
         req.body.user = req.user.id;

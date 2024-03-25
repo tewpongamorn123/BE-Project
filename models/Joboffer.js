@@ -1,11 +1,6 @@
 const mongoose = require('mongoose');
 
 const JobofferSchema = new mongoose.Schema({
-    company: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'Company',
-        required: true
-    },
     name: {
         type: String,
         required: [true, 'Please add a name'],
@@ -30,7 +25,11 @@ const JobofferSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Please add an address']
     },
-    
+    company: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Company',
+        required: true
+    },
 },
 {
     toJSON: {virtuals: true},
@@ -41,7 +40,7 @@ const JobofferSchema = new mongoose.Schema({
 JobofferSchema.virtual('interviews', {
     ref: 'interviews',
     localField: '_id',
-    foreignField: 'Joboffer',
+    foreignField: 'joboffer',
     justOne: false
 });
 
@@ -51,6 +50,7 @@ JobofferSchema.pre('deleteOne', {document: true, query: false},  async function(
     await this.model('Joboffer').deleteMany({company: this._id});
     next();
 });
+
 
 module.exports = mongoose.model('Joboffer', JobofferSchema);
     

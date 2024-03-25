@@ -10,7 +10,7 @@ connectDB();
 const companies = require('./routes/companies');
 const interviews = require('./routes/interviews');
 const auth = require('./routes/auth');
-const joboffer = require('./routes/joboffer');
+const joboffers = require('./routes/joboffers');
 
 const app = express();
 
@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use('/api/v1/companies', companies);
 app.use('/api/v1/interviews', interviews);
 app.use('/api/v1/auth', auth);
-app.use('/api/v1/joboffer', joboffer);
+app.use('/api/v1/joboffers', joboffers);
 
 const PORT = process.env.PORT || 5000;
 
