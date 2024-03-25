@@ -1,0 +1,36 @@
+@startuml OnlineJobFairUseCaseDiagram
+
+left to right direction
+
+actor "User" as user
+actor "Admin" as admin
+
+rectangle "Online Job Fair System" as JobFairSystem {
+    usecase "Register" as register
+    usecase "Login" as login
+    usecase "Logout" as logout
+    usecase "Manage Interviews" as manageInterviews
+    usecase "View Companies" as viewCompanies
+    usecase "Manage Companies" as manageCompanies
+
+    ' usecase "View Bookings" as viewBookings
+    ' usecase "Edit Bookings" as editBookings
+    ' usecase "Delete Bookings" as deleteBookings
+    
+}
+
+user --> register
+user --> login
+user --> logout
+user --> manageInterviews
+user --> viewCompanies
+
+
+login <-- admin
+register <-- admin
+manageInterviews <-- admin
+logout <-- admin
+viewCompanies <-- admin
+manageCompanies <-- admin
+
+@enduml

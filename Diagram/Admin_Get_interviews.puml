@@ -1,0 +1,22 @@
+@startuml Admin Get interview (GET)
+title "Admin Get interview (GET)"
+
+participant "Client" as user
+participant "<<javaScript>>\n:server" as server
+participant "<<router>>\n:interviews" as router
+participant "<<middleware>>\n:auth" as auth
+participant "<<controllers>>\n:interviews" as controller
+participant "<<models>>\n:Interview" as model
+database "<<MongoDB>>\n:Interviews" as database
+
+user->server ++:req.get('/interview')
+server->router ++:app.use('/interviews',interviews)
+router->auth ++:protect()
+auth --> router --: next()
+router -> controller ++:getInterviews()
+controller->model ++:Interview.find()
+model ->database ++: InterviewSchema
+database --> model --: interview
+controller <-- model --: interview
+controller -> user --:response
+@enduml

@@ -1,0 +1,82 @@
+@startuml OnlineJobFairRegistration
+
+left to right direction
+
+package "OnlineJobFair"{
+    class "<<Application>>\nOnlineJobFairService" as OnlineJobFairService{}
+
+    class "<<Resource>>\nCompanies" as ResourceCompanies{
+        <<GET>> +viewAllCompanies():Company
+        <<POST>> +createCompany():Company
+    }
+    class "<<Resource>>\nCompany" as ResourceCompany{
+        <<GET>> +viewCompany():Company
+        <<PUT>> +editCompany():Company
+        <<DELETE>> +deleteCompany():void
+    }
+    class "<<Representation>>\nCompany" as RepresentationCompany{
+        -name
+        -address
+        -website
+        -description
+        -telephone_number
+    }
+
+    class "<<Resource>>\nInterviews" as ResourceInterviews{
+        <<GET>> +viewAllInterviews():Interview
+        <<POST>> +bookInterviewSession():Interview
+    }
+
+    class "<<Resource>>\nInterview" as ResourceInterview{
+        <<GET>> +viewInterview():Interview
+        <<PUT>> +editInterview():Interview
+        <<DELETE>> +deleteInterview():void
+    }
+    class "<<Representation>>\nInterview" as RepresentationInterview{
+        -date
+        -comapany
+        -user
+    }
+
+    class "<<Resource>>\nAuthentication" as ResourceAuthentication{}
+
+    class "<<Resource>>\nRegister" as ResourceRegister{
+        <<POST>> +register():Authentication
+    }
+    class "<<Resource>>\nLogin" as ResourceLogin{
+        <<POST>> +login():Authentication
+    }
+    class "<<Resource>>\nLogout" as ResourceLogout{
+        <<GET>> +logout():void
+    }
+    class "<<Resource>>\nGetMe" as ResourceGetMe{
+        <<GET>> +getMe():Authentication
+    }
+
+    class "<<Representation>>\nUser" as RepresentationUser{
+        -name
+        -email
+        -role
+        -password
+        -telephone_number
+    }
+
+}
+
+OnlineJobFairService ..> ResourceCompanies:"/companies\n<<Path>>"
+ResourceCompanies ..> ResourceCompany:"/{companyId}\n<<Path>>"
+ResourceCompany ..> RepresentationCompany:"<<use>>"
+
+OnlineJobFairService ..> ResourceInterviews:"/interviews\n<<Path>>"
+ResourceInterviews ..> ResourceInterview:"/{interviewId}\n<<Path>>"
+ResourceInterview ..> RepresentationInterview:"<<use>>"
+
+OnlineJobFairService ..>ResourceAuthentication:"/auth\n<<Path>>"
+ResourceAuthentication ..> ResourceRegister:"/register\n<<Path>>"
+ResourceAuthentication ..> ResourceLogin:"/login\n<<Path>>"
+ResourceAuthentication ..> ResourceLogout:"/logout\n<<Path>>"
+ResourceAuthentication ..> ResourceGetMe:"/me\n<<Path>>"
+ResourceRegister ..> RepresentationUser:"<<use>>" 
+ResourceLogin ..> RepresentationUser:"<<use>>"
+ResourceGetMe ..> RepresentationUser:"<<use>>"
+@enduml
